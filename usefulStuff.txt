@@ -1,0 +1,54 @@
+# generally basic stuff that i keep googling because i never write it down
+# based on stuff encountered in hack or dev ops class
+# note that this primarily focuses on osx bash
+# to do: add my .bash_profile for additional reference
+# to do: convert helter skelter text to consistent text format
+
+#----------------------------------------
+# general bash info and functionality
+#----------------------------------------
+
+# .bash_profile vs .bashrc
+     - .bash_profile: login shell; default for new term windows in osx
+     - .bashrc: executed when opened from a desktop enviro like gnome or xfce
+
+# reload bash profile
+     - e.g., after making changes
+
+$ source ~/.bash_profile
+
+# export PATH
+     - tells the shell where to look for executable files
+     - add to .bash_profile to preserve values for future logins
+     - can be done by editing profile directly or by appending output to file using >>
+
+$ echo 'export PATH=/usr/local/bin:$PATH' >>~/.bash_profile
+
+# cycle and search through command history
+
+cycle through sequential history: up and down arrows
+reverse-i-search prompt: ctrl + r
+
+#------------------------------
+# terminal and shell tweaks
+#------------------------------
+
+# show user, host, and working directory in prompt
+
+export PS1='\u@\H:\w$ '
+
+# configure ls color output settings (examples)
+
+export CLICOLOR=1
+export LSCOLORS=GxFxCxDxBxegedabagaced
+
+# pwd in window title
+export PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}: ${PWD/#$HOME/~}\007"'
+
+#--------------------------
+# agreeable aliases
+#--------------------------
+
+# list directory, including hidden (dot) files
+
+alias ls='ls -al'
