@@ -15,14 +15,14 @@
 # reload bash profile
      - e.g., after making changes
 
-$ source ~/.bash_profile
+source ~/.bash_profile
 
 # export PATH
      - tells the shell where to look for executable files
      - add to .bash_profile to preserve values for future logins
      - can be done by editing profile directly or by appending output to file using >>
 
-$ echo 'export PATH=/usr/local/bin:$PATH' >>~/.bash_profile
+echo 'export PATH=/usr/local/bin:$PATH' >>~/.bash_profile
 
 # cycle and search through command history
 
