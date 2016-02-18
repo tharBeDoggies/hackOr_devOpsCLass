@@ -3,7 +3,7 @@
 
 [can this be done within the playbook file? assuming yes…]
 
-1. configure forwarded ports in vagrant file
+1. configure forwarded ports in vagrant file (local machine)
 
 vagrantfile_host1
 config.vm.network :forwarded_port, guest: 10000, host: 10000
@@ -11,7 +11,7 @@ config.vm.network :forwarded_port, guest: 10000, host: 10000
 vagrantfile_host2
 config.vm.network :forwarded_port, guest: 10001, host: 10001
 
-2. configure webmin .conf file and reload webmin
+2. configure webmin .conf file and reload webmin (remote vm)
 
 > config file:
 /etc/webmin/miniserv.conf
