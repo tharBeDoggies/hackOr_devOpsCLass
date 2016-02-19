@@ -1,9 +1,49 @@
 - resulted when trying to ssh into newly created vagrant machine
 - machine booted as root (oops?)
-- ssh attempted as current user
+- ssh attempted as current user > fails
 
 - tried:
-  - ssh into machine as root > 
+  - halt machine > boot as current user > fails (see full error output below)
+
+- note perm differences in /.vagrant/machines/default/virtualbox between the two directories
+
+sara@felix.local:~/devopsOr_scratch/.vagrant/machines/default/virtualbox$ ls
+total 56
+drwxr-xr-x  9 sara  staff   306 Feb 17 21:02 .
+drwxr-xr-x  3 sara  staff   102 Feb 17 17:35 ..
+-rw-r--r--  1 sara  staff    40 Feb 17 21:02 action_provision
+-rw-r--r--  1 sara  staff    10 Feb 17 21:02 action_set_name
+-rw-r--r--  1 sara  staff     3 Feb 17 21:02 creator_uid
+-rw-r--r--  1 sara  staff    36 Feb 17 21:02 id
+-rw-r--r--  1 sara  staff    32 Feb 17 21:02 index_uuid
+-rw-------  1 sara  staff  1675 Feb 17 21:02 private_key
+-rw-r--r--  1 sara  staff   132 Feb 18 18:46 synced_folders
+
+sara@felix.local:~/devopsOr_scratch_1/.vagrant/machines/default/virtualbox$ ls
+total 56
+drwxr-xr-x  9 sara  staff   306 Feb 18 18:47 .
+drwxr-xr-x  3 sara  staff   102 Feb 18 17:44 ..
+-rw-r--r--  1 root  staff    40 Feb 18 18:47 action_provision
+-rw-r--r--  1 root  staff    10 Feb 18 18:46 action_set_name
+-rw-r--r--  1 root  staff     1 Feb 18 18:46 creator_uid
+-rw-r--r--  1 root  staff    36 Feb 18 18:46 id
+-rw-r--r--  1 root  staff    32 Feb 18 18:46 index_uuid
+-rw-------  1 root  staff  1675 Feb 18 18:47 private_key
+-rw-r--r--  1 root  staff   134 Feb 18 18:47 synced_folders
+
+
+sara@felix.local:~/devopsOr_scratch_1/.vagrant/machines$ ls default/virtualbox/
+total 56
+drwxr-xr-x  9 sara  staff   306 Feb 18 18:47 .
+drwxr-xr-x  3 sara  staff   102 Feb 18 17:44 ..
+-rw-r--r--  1 root  staff    40 Feb 18 18:47 action_provision
+-rw-r--r--  1 root  staff    10 Feb 18 18:46 action_set_name
+-rw-r--r--  1 root  staff     1 Feb 18 18:46 creator_uid
+-rw-r--r--  1 root  staff    36 Feb 18 18:46 id
+-rw-r--r--  1 root  staff    32 Feb 18 18:46 index_uuid
+-rw-------  1 root  staff  1675 Feb 18 18:47 private_key
+-rw-r--r--  1 root  staff   134 Feb 18 18:47 synced_folders
+
 
 - error output:
 
@@ -15,3 +55,175 @@ that user. This is not a Vagrant issue.
 
 The UID used to create the VM was: 0
 Your UID is: 501
+
+
+
+sara@felix.local:~/devopsOr_scratch_1$ vagrant up
+Bringing machine 'default' up with 'virtualbox' provider...
+==> default: Importing base box 'ubuntu/vivid64'...
+==> default: Matching MAC address for NAT networking...
+==> default: Checking if box 'ubuntu/vivid64' is up to date...
+==> default: Setting the name of the VM: devopsOr_scratch_1_default_1455849881414_51959
+==> default: Clearing any previously set forwarded ports...
+==> default: Clearing any previously set network interfaces...
+==> default: Preparing network interfaces based on configuration...
+    default: Adapter 1: nat
+==> default: Forwarding ports...
+    default: 22 (guest) => 2222 (host) (adapter 1)
+==> default: Booting VM...
+==> default: Waiting for machine to boot. This may take a few minutes...
+    default: SSH address: 127.0.0.1:2222
+    default: SSH username: vagrant
+    default: SSH auth method: private key
+    default:
+    default: Vagrant insecure key detected. Vagrant will automatically replace
+    default: this with a newly generated keypair for better security.
+    default:
+    default: Inserting generated public key within guest...
+    default: Removing insecure key from the guest if it's present...
+    default: Key inserted! Disconnecting and reconnecting using new SSH key...
+==> default: Machine booted and ready!
+==> default: Checking for guest additions in VM...
+    default: The guest additions on this VM do not match the installed version of
+    default: VirtualBox! In most cases this is fine, but in rare cases it can
+    default: prevent things such as shared folders from working properly. If you see
+    default: shared folder errors, please make sure the guest additions within the
+    default: virtual machine match the version of VirtualBox you have installed on
+    default: your host and reload your VM.
+    default:
+    default: Guest Additions Version: 4.3.36
+    default: VirtualBox Version: 5.0
+==> default: Mounting shared folders...
+    default: /vagrant => /Users/sara/devopsOr_scratch_1
+==> default: Running provisioner: ansible...
+==> default: Forcing shutdown of VM...
+==> default: Destroying VM and associated drives...
+/opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/provisioners/ansible/provisioner/host.rb:135:in `initialize': Permission denied @ rb_sysopen - /Users/sara/devopsOr_scratch_1/.vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory (Errno::EACCES)
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/provisioners/ansible/provisioner/host.rb:135:in `open'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/provisioners/ansible/provisioner/host.rb:135:in `open'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/provisioners/ansible/provisioner/host.rb:135:in `block in ship_generated_inventory'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/provisioners/ansible/provisioner/host.rb:133:in `synchronize'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/provisioners/ansible/provisioner/host.rb:133:in `ship_generated_inventory'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/provisioners/ansible/provisioner/base.rb:105:in `generate_inventory'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/provisioners/ansible/provisioner/base.rb:71:in `inventory_path'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/provisioners/ansible/provisioner/base.rb:37:in `prepare_common_command_arguments'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/provisioners/ansible/provisioner/host.rb:61:in `prepare_command_arguments'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/provisioners/ansible/provisioner/host.rb:110:in `execute_ansible_playbook_from_host'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/provisioners/ansible/provisioner/host.rb:23:in `provision'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/builtin/provision.rb:133:in `run_provisioner'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:95:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:95:in `block in finalize_action'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/builder.rb:116:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/runner.rb:66:in `block in run'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/util/busy.rb:19:in `busy'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/runner.rb:66:in `run'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/environment.rb:473:in `hook'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/builtin/provision.rb:121:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/builtin/provision.rb:121:in `block in call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/builtin/provision.rb:103:in `each'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/builtin/provision.rb:103:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/providers/virtualbox/action/clear_forwarded_ports.rb:15:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/providers/virtualbox/action/set_name.rb:50:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/providers/virtualbox/action/clean_machine_folder.rb:17:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/providers/virtualbox/action/check_accessible.rb:18:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:95:in `block in finalize_action'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/builder.rb:116:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/runner.rb:66:in `block in run'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/util/busy.rb:19:in `busy'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/runner.rb:66:in `run'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/builtin/call.rb:53:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:95:in `block in finalize_action'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/builder.rb:116:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/runner.rb:66:in `block in run'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/util/busy.rb:19:in `busy'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/runner.rb:66:in `run'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/builtin/call.rb:53:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:95:in `block in finalize_action'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/builder.rb:116:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/runner.rb:66:in `block in run'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/util/busy.rb:19:in `busy'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/runner.rb:66:in `run'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/builtin/call.rb:53:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/builtin/box_check_outdated.rb:78:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/builtin/config_validate.rb:25:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/providers/virtualbox/action/check_virtualbox.rb:17:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:95:in `block in finalize_action'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/providers/virtualbox/action/match_mac_address.rb:19:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/providers/virtualbox/action/discard_state.rb:15:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/providers/virtualbox/action/import.rb:74:in `import'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/providers/virtualbox/action/import.rb:13:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/providers/virtualbox/action/prepare_clone_snapshot.rb:17:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/builtin/prepare_clone.rb:15:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/providers/virtualbox/action/customize.rb:40:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/providers/virtualbox/action/check_accessible.rb:18:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:95:in `block in finalize_action'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/builder.rb:116:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/runner.rb:66:in `block in run'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/util/busy.rb:19:in `busy'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/runner.rb:66:in `run'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/builtin/call.rb:53:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/builtin/config_validate.rb:25:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:95:in `block in finalize_action'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/builtin/handle_box.rb:56:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:95:in `block in finalize_action'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/builder.rb:116:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/runner.rb:66:in `block in run'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/util/busy.rb:19:in `busy'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/runner.rb:66:in `run'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/builtin/call.rb:53:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/plugins/providers/virtualbox/action/check_virtualbox.rb:17:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/warden.rb:34:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/builder.rb:116:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/runner.rb:66:in `block in run'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/util/busy.rb:19:in `busy'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/action/runner.rb:66:in `run'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/machine.rb:224:in `action_raw'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/machine.rb:199:in `block in action'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/environment.rb:561:in `lock'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/machine.rb:185:in `call'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/machine.rb:185:in `action'
+	from /opt/vagrant/embedded/gems/gems/vagrant-1.8.1/lib/vagrant/batch_action.rb:82:in `block (2 levels) in run'
+sara@felix.local:~/devopsOr_scratch_1$ vagrant ssh
+VM must be created before running this command. Run `vagrant up` first.
+sara@felix.local:~/devopsOr_scratch_1$ vagrant reload
+==> default: VM not created. Moving on...
+sara@felix.local:~/devopsOr_scratch_1$ vagrant provision
+==> default: VM not created. Moving on...
