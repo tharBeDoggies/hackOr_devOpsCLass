@@ -1,4 +1,4 @@
-# notes, howtos, and troubleshooting related to hack u. dev ops class
+# notes and resources related to hack u. dev ops class
 
 ## what have we here?
 
