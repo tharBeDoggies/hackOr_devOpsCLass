@@ -3,8 +3,13 @@
 - ssh attempted as current user > fails
 
 - tried:
-  - halt machine > boot as current user > fails (see full error output below)
+	- halt machine > boot as current user > fails (see full error output below)
+  	- change ownership of virtualbox directory recursively > reboot machine as current user > fails
+  		sudo chown -R sara:staff virtualbox/
 
+- possible resources:
+http://stackoverflow.com/questions/31644222/vagrant-not-starting-up-user-that-created-vm-doesnt-match-current-user
+  		
 - note group ownership differences in /.vagrant/machines/default/virtualbox between the two directories
 
 sara@felix.local:~/devopsOr_scratch/.vagrant/machines/default/virtualbox$ ls
