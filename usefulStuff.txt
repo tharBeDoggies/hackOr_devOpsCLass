@@ -45,6 +45,15 @@ export LSCOLORS=GxFxCxDxBxegedabagaced
 # pwd in window title
 export PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}: ${PWD/#$HOME/~}\007"'
 
+# vim config
+
+add the following to ~/.vimrc (create file if it does not already exist in home directory)
+
+filetype plugin indent on (display vertical lines at each indentation level)
+syntax on (syntax highlighting)
+set number (line numbers)
+
+
 #--------------------------
 # agreeable aliases
 #--------------------------
