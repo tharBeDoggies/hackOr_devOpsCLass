@@ -15,4 +15,7 @@
 
 ## to do
 
+* get better grasp on markdown syntax
+	* what's up with how md handles spaces, tabs, etc.?!?! (e.g., why is there a space above this line?)
 
+* re-org directory and file structure 
