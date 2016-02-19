@@ -1,6 +1,7 @@
 # vagrant and ansible
      - create <vagrantDir> for new vagrant box
      - create Vagrant file in <vagrantDir>
+     - create and add ansible playbook file <playbook.yml> in <vagrantDir> 
      - add vagrant box
      - edit Vagrant file to use new vagrant box and ansible
      - boot new vagrant environment
@@ -21,6 +22,18 @@ vi Vagrantfile
           ansible.verbose = "v"
           ansible.playbook = "playbook.yml"
      end
+
+vi playbook.yml
+     basic example: 
+
+     ---
+     - hosts: all
+       user: ubuntu
+       become: yes
+
+       tasks:
+       - name: install whois deb package
+         apt: name=whois state=latest
 
 vagrant up
 vagrant ssh
