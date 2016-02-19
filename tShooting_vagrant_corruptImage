@@ -13,6 +13,9 @@
   - https://github.com/mitchellh/vagrant/issues/1185
   - https://teamtreehouse.com/community/error-with-vagrant-up-command
 
+
+- error output
+
 Sara@felix.local:~/devopsOr_scratch_1$ vagrant up
 Bringing machine 'default' up with 'virtualbox' provider...
 ==> default: Importing base box 'ubuntu/vivid64'...
