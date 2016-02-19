@@ -1,0 +1,26 @@
+# vagrant and ansible
+     - create <vagrantDir> for new vagrant box
+     - create Vagrant file in <vagrantDir>
+     - add vagrant box
+     - edit Vagrant file to use new vagrant box and ansible
+     - boot new vagrant environment
+     - ssh into box
+
+mkdir vagrantDir
+cd vagrantDir
+vagrant init
+vagrant box add ubuntu/trusty64
+     - will take some time if not downloaded/added previously
+vi Vagrantfile
+     add the following:
+
+     Vagrant.configure(2) do |config|
+          config.vm.box = "ubuntu/trusty64"
+
+     config.vm.provision "ansible" do |ansible|
+          ansible.verbose = "v"
+          ansible.playbook = "playbook.yml"
+     end
+
+vagrant up
+vagrant ssh
