@@ -1,6 +1,9 @@
+- cropped error output: 
+	The VirtualBox VM was created with a user that doesn't match the current user running Vagrant.
 - resulted when trying to ssh into newly created vagrant machine
 - machine booted as root (oops?)
-- ssh attempted as current user > fails
+- ssh as current user fails
+- ssh as root works
 
 - tried:
 	- halt machine > boot as current user > fails (see full error output below)
