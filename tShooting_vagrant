@@ -1,3 +1,14 @@
+- ran into the following when launching a newly downloaded base image from vagrant
+- had tried adding the machine into two separate directories concurrently 
+- though the download proceeded normally at first, one of them timed out while the other continued
+
+- theories:
+  - interruption in download resulted in corruption of vmdk file? 
+  - quick research indicates it may also be a disk space issue
+  
+- tried:
+  - list vagrant boxes > remove problematic one > add machine again > ...
+
 Sara@felix.local:~/devopsOr_scratch_1$ vagrant up
 Bringing machine 'default' up with 'virtualbox' provider...
 ==> default: Importing base box 'ubuntu/vivid64'...
