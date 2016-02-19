@@ -25,12 +25,27 @@ git commit -m "first commit"
 git remote add origin https://github.com/yourAccount/remoteRepoUrl.git
 git push origin master
 
+## troubleshooting merging issues 
+**very basic notes for now; still trying to figure out how staging and committing works
+**resource to review further: 
+http://stackoverflow.com/questions/6919121/why-are-there-2-ways-to-unstage-a-file-in-git
+
+git status
+git reset HEAD filename
+
+git fetch origin
+git reset --hard origin/master *will throw away local changes and overwrite with origin* 
+
+
 ## ongoing integration between local and remote repos
 
 git pull 
+
+
 
 ## resources consulted: 
 
 http://stackoverflow.com/questions/2423777/is-it-possible-to-create-a-remote-repo-on-github-from-the-cli-without-ssh
 https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/
 https://git-scm.com/docs/git-pull
+http://stackoverflow.com/questions/15127078/git-pull-is-not-possible-unmerged-files
