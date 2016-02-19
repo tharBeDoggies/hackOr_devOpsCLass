@@ -1,4 +1,4 @@
-# resources, outlines, howtos, troubleshooting, and general notes from hack or dev ops class
+# notes, howtos, and troubleshooting related to hack or dev ops class
 
 ## what's all this stuff? 
 
