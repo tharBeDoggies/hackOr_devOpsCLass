@@ -1,4 +1,5 @@
-// how to access the webmin gui from two separate aws instances
+// how to access the webmin gui from two concurrently running vagrant machines
+
 - webmin uses port 10000 by default; if you want to access the gui locally for two separate instances, you must change the webmin .conf file on the respective machine.
 
 [can this be done within the playbook file? assuming yes…]
