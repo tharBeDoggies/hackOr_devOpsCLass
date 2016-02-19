@@ -5,7 +5,7 @@
 - tried:
   - halt machine > boot as current user > fails (see full error output below)
 
-- note perm differences in /.vagrant/machines/default/virtualbox between the two directories
+- note group ownership differences in /.vagrant/machines/default/virtualbox between the two directories
 
 sara@felix.local:~/devopsOr_scratch/.vagrant/machines/default/virtualbox$ ls
 total 56
