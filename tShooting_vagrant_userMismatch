@@ -8,7 +8,7 @@
   		sudo chown -R sara:staff virtualbox/
 	- edit .vagrant\machines\default\virtualbox\creator_uid to reflect uid of current user > fails with permission issue in .vagrant directory
 		...denied @ rb_sysopen - /Users/sara/devopsOr_scratch_1/.vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory (Errno::EACCES)
-	- change ownership of .vagrant directory recursively > success
+	* change ownership of .vagrant directory recursively > success
 
 - related resources:
 http://stackoverflow.com/questions/31644222/vagrant-not-starting-up-user-that-created-vm-doesnt-match-current-user
