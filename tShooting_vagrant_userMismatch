@@ -1,0 +1,17 @@
+- resulted when trying to ssh into newly created vagrant machine
+- machine booted as root (oops?)
+- ssh attempted as current user
+
+- tried:
+  - ssh into machine as root > 
+
+- error output:
+
+sara@felix.local:~/devopsOr_scratch_1$ vagrant ssh
+The VirtualBox VM was created with a user that doesn't match the
+current user running Vagrant. VirtualBox requires that the same user
+be used to manage the VM that was created. Please re-run Vagrant with
+that user. This is not a Vagrant issue.
+
+The UID used to create the VM was: 0
+Your UID is: 501
