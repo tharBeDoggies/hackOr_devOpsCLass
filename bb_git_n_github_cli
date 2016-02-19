@@ -1,0 +1,36 @@
+# barebones outline of workflow for working with git and github via cli 
+# extremely basic progression to aid in getting comfortable with how git and github work 
+
+## create a new repository 
+
+* via web/gui:
+see https://help.github.com/articles/creating-a-new-repository/
+
+* via cli:
+curl -u 'USER' https://api.github.com/user/repos -d '{"name":"REPO"}'
+# Remember replace USER with your username and REPO with your repository/application name!
+git remote add origin git@github.com:USER/REPO.git
+git push origin master
+
+## add project to new repository
+  - initialize directory
+  - add/stage local files for commit
+  - add and verify url of lremote repo
+  - push changes to github
+
+cd <projectDirectory>
+git init (initializes local directory as git repo)
+git add .
+git commit -m "first commit"
+git remote add origin https://github.com/yourAccount/remoteRepoUrl.git
+git push origin master
+
+## ongoing integration between local and remote repos
+
+git pull 
+
+## resources consulted: 
+
+http://stackoverflow.com/questions/2423777/is-it-possible-to-create-a-remote-repo-on-github-from-the-cli-without-ssh
+https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/
+https://git-scm.com/docs/git-pull
