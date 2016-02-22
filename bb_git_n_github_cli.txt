@@ -1,6 +1,10 @@
 # barebones outline of workflow for working with git and github via cli 
 # extremely basic progression to aid in getting comfortable with how git and github work 
 
+[[ 2.21.16 update... this site looks promising... 
+http://alvinalexander.com/git/git-cheat-sheet-git-reference-commands ]]
+
+
 ## create a new repository 
 
 * via web/gui:
@@ -25,6 +29,17 @@ git commit -m "first commit"
 git remote add origin https://github.com/yourAccount/remoteRepoUrl.git
 git push origin master
 
+## temporary dumping ground for stuff related to checkout/switching branch issues
+
+list branches:
+git show-branch -a
+
+show git config for current directory:
+git config -l
+
+info re: stop tracking files or directories:
+http://alvinalexander.com/git/git-rm-file-git-repository-dont-track-accidentally-added
+
 ## troubleshooting merging issues 
 **very basic notes for now; still trying to figure out how staging and committing works
 **resource to review further: 
@@ -40,6 +55,8 @@ git reset --hard origin/master *will throw away local changes and overwrite with
 ## ongoing integration between local and remote repos
 
 git pull 
+
+
 
 
 
