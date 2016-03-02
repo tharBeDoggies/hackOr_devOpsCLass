@@ -124,7 +124,13 @@ round 1nnn...
 
 i still have a load balancer running, but there are no instances registered to it
 i still also have two security groups... 
-will increment bastion id, delete group_vars/us-west-2, then see if i can launch the cluster again to confirm whether or not stuff is truly deleted
+will increment bastion id, delete group_vars/us-west-2, then see if i can run the script again again to confirm whether or not stuff is truly deleted
+
+round 1nopqr...
+script was successful until stage three, when it failed in the creation of the ELB...
+	is the ELB absolutely vital to creating the barebones structure of this? can the script be a bit more forgiving, and still provide the link to webmin...? 
+	can that part be "ignored"? 
+
 
 
 round 1z.
