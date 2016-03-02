@@ -3,14 +3,15 @@
   # use the most stubborn trial and error techniques around
 # sassy, unnecessary note: prolly a good idea to create a cloudformation stack (ideally via the launchCluster.sh script) first
 
---------------------
+------------------------------------------------------------
 babble/scratch area
---------------------
+------------------------------------------------------------
 [[1]]
 ~$ aws cloudformation describe-stack-events --stack-name HackOregon-stack >> deleteStack
----
+--------------------------------------------------------------------------------
 
-# delete hackOr stack (prior to terminating instances, disassociating ips, etc) via aws console gui
+round 1.
+delete hackOr stack (prior to terminating instances, disassociating ips, etc) via aws console gui
 
 stuff that remains: 
   AWS::EC2::Subnet
