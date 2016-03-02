@@ -9,6 +9,21 @@ babble/scratch area
 [[1]]
 ~$ aws cloudformation describe-stack-events --stack-name HackOregon-stack >> deleteStack
 
+! er.. may have been helpful if i had just read this warning when attempting to delete the hackor vpc
+
+Are you sure you want to delete this VPC? Deleting this VPC will also delete objects associated with this VPC in this region.
+
+Subnets
+Security Groups
+Network ACLs
+VPN Attachments
+Internet Gateways
+Route Tables
+Network Interfaces
+VPC Peering Connections
+
+
+
 ~$ aws ec2 describe-instances | grep "InstanceId"
                     "InstanceId": "i-c50e7b02",
                     "InstanceId": "i-3e5b08e4",
@@ -78,7 +93,7 @@ subnet-bbf3dce2 (10.10.32.0/20) | dmz-C
 Click here to view your instances. 
 Click here to view your network interfaces. 
   
-round 1efg.
+round 1efg?
 	
 Terminate Instances
 Warning
@@ -86,7 +101,22 @@ On an EBS-backed instance, the default action is for the root EBS volume to be d
 Are you sure you want to terminate these instances?
 i-c50e7b02 (ec2-54-213-221-226.us-west-2.compute.amazonaws.com)
 
+round 1k.
+no more running instances
+vpc > delete subnets > fails with the following:
 
+The following subnets contain one or more network interfaces, and cannot be deleted until those network interfaces have been deleted.
+subnet-7a2a3a0d (10.10.0.0/20) | dmz-A
+subnet-e08b7484 (10.10.16.0/20) | dmz-B
+subnet-bbf3dce2 (10.10.32.0/20) | dmz-C
+
+Click here to view your network interfaces. 
+
+round 1m.
+ec2 > network and sec > network interfaces > deTACH (forced) THEN delete (the above error when trying to delete subnets will occur otherwise)
+
+round 1z.
+i may need a brain scan
 
 
 -----------------------
