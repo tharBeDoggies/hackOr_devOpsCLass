@@ -124,7 +124,7 @@ round 1nnn...
 
 i still have a load balancer running, but there are no instances registered to it
 i still also have two security groups... 
-will increment bastion id, delete the us-west thinger, then see if i can launch the cluster again to confirm whether or not stuff is truly deleted
+will increment bastion id, delete group_vars/us-west-2, then see if i can launch the cluster again to confirm whether or not stuff is truly deleted
 
 
 round 1z.
