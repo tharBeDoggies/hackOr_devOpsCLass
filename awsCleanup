@@ -38,6 +38,13 @@ delete hackOr VPC
 fails with:
 This VPC contains one or more instances, and cannot be deleted until those instances have been terminated.
 
+round 1b.
+delete all running instances 
+
+* doing this also automatically releases associated addresses... woot woot
+
+
+
 
 -----------------------
 babble/scratch area for dumping tons of text
