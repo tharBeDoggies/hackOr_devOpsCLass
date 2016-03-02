@@ -130,7 +130,7 @@ round 1nopqr...
 script was successful until stage three, when it failed in the creation of the ELB...
 	is the ELB absolutely vital to creating the barebones structure of this? can the script be a bit more forgiving, and still provide the link to webmin...? 
 	can that part be "ignored"? 
-
+	* indeed, i can still access the http interface; perhaps put the debug comment earlier in the script? 
 
 
 round 1z.
