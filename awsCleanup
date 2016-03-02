@@ -115,6 +115,11 @@ Click here to view your network interfaces.
 round 1m.
 ec2 > network and sec > network interfaces > deTACH (forced) THEN delete (the above error when trying to delete subnets will occur otherwise)
 
+round 1n.
+try again to delete entire hackor stack
+
+success. 
+
 round 1z.
 i may need a brain scan
 
