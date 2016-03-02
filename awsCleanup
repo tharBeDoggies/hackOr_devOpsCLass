@@ -54,9 +54,37 @@ my-ecs-clusterLC
 Cannot delete launch configuration my-ecs-clusterLC because it is attached to AutoScalingGroup my-ecs-clusterASG
 
 * learning! * must delete AutoScalingGroups first
+- now i can delete my-ecs-clusterLC
 
+round 1c.
+attempt to delete vpc again
+
+fails with:
+	
+We could not delete the following VPC (vpc-965ab0f2 (10.10.0.0/16) | HackOregon)
+
+Network vpc-965ab0f2 has some mapped public address(es). Please unmap those public address(es) before detaching the gateway. (Service: AmazonEC2; Status Code: 400; Error Code: DependencyViolation; Request ID: 15f1528d-d22f-43c5-80d9-591153362852)
+
+round 1d.
+delete subnet
+
+fails with:
+
+The following subnets contain one or more instances or network interfaces. You cannot delete these subnets until those instances have been terminated, and the network interfaces have been deleted.
+subnet-7a2a3a0d (10.10.0.0/20) | dmz-A
+subnet-e08b7484 (10.10.16.0/20) | dmz-B
+subnet-e5856c81 (172.31.16.0/20)
+subnet-bbf3dce2 (10.10.32.0/20) | dmz-C
+Click here to view your instances. 
+Click here to view your network interfaces. 
   
-
+round 1efg.
+	
+Terminate Instances
+Warning
+On an EBS-backed instance, the default action is for the root EBS volume to be deleted when the instance is terminated. Storage on any local drives will be lost.
+Are you sure you want to terminate these instances?
+i-c50e7b02 (ec2-54-213-221-226.us-west-2.compute.amazonaws.com)
 
 
 
