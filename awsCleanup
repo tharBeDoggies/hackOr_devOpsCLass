@@ -39,9 +39,24 @@ fails with:
 This VPC contains one or more instances, and cannot be deleted until those instances have been terminated.
 
 round 1b.
-delete all running instances 
+delete all running instances
 
 * doing this also automatically releases associated addresses... woot woot
+
+round 1bc.
+delete hackOr vpc
+fails with vpc containing instances error
+turns out i only deleted instances associated with a specific vpc id
+  - ecs cluster instances continue to have a field day
+
+Are you sure you want to delete this resource?
+my-ecs-clusterLC
+Cannot delete launch configuration my-ecs-clusterLC because it is attached to AutoScalingGroup my-ecs-clusterASG
+
+* learning! * must delete AutoScalingGroups first
+
+  
+
 
 
 
