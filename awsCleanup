@@ -8,10 +8,19 @@ babble/scratch area
 ------------------------------------------------------------
 [[1]]
 ~$ aws cloudformation describe-stack-events --stack-name HackOregon-stack >> deleteStack
+
+~$ aws ec2 describe-instances | grep "InstanceId"
+                    "InstanceId": "i-c50e7b02",
+                    "InstanceId": "i-3e5b08e4",
+                    "InstanceId": "i-3f0a7ff8",
+                    "InstanceId": "i-fd269a25",
+                    "InstanceId": "i-d225990a",
+
+! idea ! instance ids > instance variables > loop through aws ec2 terminate-instances (requires argument --instance-ids)
 --------------------------------------------------------------------------------
 
 round 1.
-delete hackOr stack (prior to terminating instances, disassociating ips, etc) via aws console gui
+delete entire hackOr stack (prior to terminating instances, disassociating ips, etc) via aws console gui
 
 stuff that remains: 
   AWS::EC2::Subnet
@@ -22,6 +31,13 @@ stuff that successfully deletes:
   AWS::EC2::RouteTable
   AWS::EC2::Route
   AWS::EC2::SubnetRouteTableAssociation
+  
+round 1a.
+delete hackOr VPC
+
+fails with:
+This VPC contains one or more instances, and cannot be deleted until those instances have been terminated.
+
 
 -----------------------
 babble/scratch area for dumping tons of text
