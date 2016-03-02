@@ -3,6 +3,843 @@
   # use the most stubborn trial and error techniques around
 # sassy, unnecessary note: prolly a good idea to create a cloudformation stack (ideally via the launchCluster.sh script) first
 
+--------------------
+babble/scratch area
+--------------------
+[[1]]
+~$ aws cloudformation describe-stack-events --stack-name HackOregon-stack >> deleteStack
+---
+
 # delete hackOr stack (prior to terminating instances, disassociating ips, etc) via aws console gui
 
+stuff that remains: 
+  AWS::EC2::Subnet
+  AWS::EC2::VPCGatewayAttachment
+  AWS::EC2::VPC
+
 stuff that successfully deletes:
+  AWS::EC2::RouteTable
+  AWS::EC2::Route
+  AWS::EC2::SubnetRouteTableAssociation
+
+-----------------------
+babble/scratch area for dumping tons of text
+--------------------
+[[1]]
+{
+    "StackEvents": [
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "VPC-DELETE_FAILED-2016-03-02T18:59:50.677Z", 
+            "ResourceStatus": "DELETE_FAILED", 
+            "ResourceType": "AWS::EC2::VPC", 
+            "Timestamp": "2016-03-02T18:59:50.677Z", 
+            "ResourceStatusReason": "The vpc 'vpc-965ab0f2' has dependencies and cannot be deleted.", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.0.0/16\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"DMZ\",\"Key\":\"Network\"},{\"Value\":\"HackOregon\",\"Key\":\"Name\"}],\"EnableDnsSupport\":\"true\",\"EnableDnsHostnames\":\"true\"}\n", 
+            "PhysicalResourceId": "vpc-965ab0f2", 
+            "LogicalResourceId": "VPC"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "VPC-DELETE_IN_PROGRESS-2016-03-02T18:58:29.982Z", 
+            "ResourceStatus": "DELETE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::VPC", 
+            "Timestamp": "2016-03-02T18:58:29.982Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.0.0/16\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"DMZ\",\"Key\":\"Network\"},{\"Value\":\"HackOregon\",\"Key\":\"Name\"}],\"EnableDnsSupport\":\"true\",\"EnableDnsHostnames\":\"true\"}\n", 
+            "PhysicalResourceId": "vpc-965ab0f2", 
+            "LogicalResourceId": "VPC"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "SubnetdmzB-DELETE_FAILED-2016-03-02T18:58:27.859Z", 
+            "ResourceStatus": "DELETE_FAILED", 
+            "ResourceType": "AWS::EC2::Subnet", 
+            "Timestamp": "2016-03-02T18:58:27.859Z", 
+            "ResourceStatusReason": "The subnet 'subnet-e08b7484' has dependencies and cannot be deleted.", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.16.0/20\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"dmz-B\",\"Key\":\"Name\"},{\"Value\":\"dmz\",\"Key\":\"Tier\"}],\"AvailabilityZone\":\"us-west-2b\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "subnet-e08b7484", 
+            "LogicalResourceId": "SubnetdmzB"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "InternetGateway-DELETE_IN_PROGRESS-2016-03-02T18:58:16.948Z", 
+            "ResourceStatus": "DELETE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::InternetGateway", 
+            "Timestamp": "2016-03-02T18:58:16.948Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"dmz\",\"Key\":\"Tier\"}]}\n", 
+            "PhysicalResourceId": "igw-44085821", 
+            "LogicalResourceId": "InternetGateway"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "GatewayToInternet-DELETE_FAILED-2016-03-02T18:58:14.743Z", 
+            "ResourceStatus": "DELETE_FAILED", 
+            "ResourceType": "AWS::EC2::VPCGatewayAttachment", 
+            "Timestamp": "2016-03-02T18:58:14.743Z", 
+            "ResourceStatusReason": "Network vpc-965ab0f2 has some mapped public address(es). Please unmap those public address(es) before detaching the gateway.", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"InternetGatewayId\":\"igw-44085821\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "HackO-Gatew-12NY5VWSR9OWN", 
+            "LogicalResourceId": "GatewayToInternet"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "SubnetdmzA-DELETE_FAILED-2016-03-02T18:58:05.681Z", 
+            "ResourceStatus": "DELETE_FAILED", 
+            "ResourceType": "AWS::EC2::Subnet", 
+            "Timestamp": "2016-03-02T18:58:05.681Z", 
+            "ResourceStatusReason": "The subnet 'subnet-7a2a3a0d' has dependencies and cannot be deleted.", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.0.0/20\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"dmz-A\",\"Key\":\"Name\"},{\"Value\":\"dmz\",\"Key\":\"Tier\"}],\"AvailabilityZone\":\"us-west-2a\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "subnet-7a2a3a0d", 
+            "LogicalResourceId": "SubnetdmzA"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "SubnetprivB-DELETE_FAILED-2016-03-02T18:57:58.384Z", 
+            "ResourceStatus": "DELETE_FAILED", 
+            "ResourceType": "AWS::EC2::Subnet", 
+            "Timestamp": "2016-03-02T18:57:58.384Z", 
+            "ResourceStatusReason": "The subnet 'subnet-e28b7486' has dependencies and cannot be deleted.", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.128.0/20\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"private-B\",\"Key\":\"Name\"},{\"Value\":\"private\",\"Key\":\"Tier\"}],\"AvailabilityZone\":\"us-west-2b\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "subnet-e28b7486", 
+            "LogicalResourceId": "SubnetprivB"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "SubnetdmzC-DELETE_FAILED-2016-03-02T18:57:56.100Z", 
+            "ResourceStatus": "DELETE_FAILED", 
+            "ResourceType": "AWS::EC2::Subnet", 
+            "Timestamp": "2016-03-02T18:57:56.100Z", 
+            "ResourceStatusReason": "The subnet 'subnet-bbf3dce2' has dependencies and cannot be deleted.", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.32.0/20\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"dmz-C\",\"Key\":\"Name\"},{\"Value\":\"dmz\",\"Key\":\"Tier\"}],\"AvailabilityZone\":\"us-west-2c\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "subnet-bbf3dce2", 
+            "LogicalResourceId": "SubnetdmzC"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "SubnetprivA-DELETE_FAILED-2016-03-02T18:57:55.565Z", 
+            "ResourceStatus": "DELETE_FAILED", 
+            "ResourceType": "AWS::EC2::Subnet", 
+            "Timestamp": "2016-03-02T18:57:55.565Z", 
+            "ResourceStatusReason": "The subnet 'subnet-7b2a3a0c' has dependencies and cannot be deleted.", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.112.0/20\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"private-A\",\"Key\":\"Name\"},{\"Value\":\"private\",\"Key\":\"Tier\"}],\"AvailabilityZone\":\"us-west-2a\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "subnet-7b2a3a0c", 
+            "LogicalResourceId": "SubnetprivA"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "SubnetprivC-DELETE_FAILED-2016-03-02T18:57:51.137Z", 
+            "ResourceStatus": "DELETE_FAILED", 
+            "ResourceType": "AWS::EC2::Subnet", 
+            "Timestamp": "2016-03-02T18:57:51.137Z", 
+            "ResourceStatusReason": "The subnet 'subnet-b9f3dce0' has dependencies and cannot be deleted.", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.144.0/20\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"private-C\",\"Key\":\"Name\"},{\"Value\":\"private\",\"Key\":\"Tier\"}],\"AvailabilityZone\":\"us-west-2c\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "subnet-b9f3dce0", 
+            "LogicalResourceId": "SubnetprivC"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "DMZRouteTable-DELETE_COMPLETE-2016-03-02T18:55:59.584Z", 
+            "ResourceStatus": "DELETE_COMPLETE", 
+            "ResourceType": "AWS::EC2::RouteTable", 
+            "Timestamp": "2016-03-02T18:55:59.584Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"DMZRouteTable\",\"Key\":\"Name\"},{\"Value\":\"dmz\",\"Key\":\"Tier\"}],\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "rtb-22d21b46", 
+            "LogicalResourceId": "DMZRouteTable"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "DMZRouteTable-DELETE_IN_PROGRESS-2016-03-02T18:55:58.781Z", 
+            "ResourceStatus": "DELETE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::RouteTable", 
+            "Timestamp": "2016-03-02T18:55:58.781Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"DMZRouteTable\",\"Key\":\"Name\"},{\"Value\":\"dmz\",\"Key\":\"Tier\"}],\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "rtb-22d21b46", 
+            "LogicalResourceId": "DMZRouteTable"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "SubnetdmzC-DELETE_IN_PROGRESS-2016-03-02T18:55:58.636Z", 
+            "ResourceStatus": "DELETE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::Subnet", 
+            "Timestamp": "2016-03-02T18:55:58.636Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.32.0/20\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"dmz-C\",\"Key\":\"Name\"},{\"Value\":\"dmz\",\"Key\":\"Tier\"}],\"AvailabilityZone\":\"us-west-2c\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "subnet-bbf3dce2", 
+            "LogicalResourceId": "SubnetdmzC"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "GatewayToInternet-DELETE_IN_PROGRESS-2016-03-02T18:55:58.382Z", 
+            "ResourceStatus": "DELETE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::VPCGatewayAttachment", 
+            "Timestamp": "2016-03-02T18:55:58.382Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"InternetGatewayId\":\"igw-44085821\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "HackO-Gatew-12NY5VWSR9OWN", 
+            "LogicalResourceId": "GatewayToInternet"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "SubnetdmzB-DELETE_IN_PROGRESS-2016-03-02T18:55:58.341Z", 
+            "ResourceStatus": "DELETE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::Subnet", 
+            "Timestamp": "2016-03-02T18:55:58.341Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.16.0/20\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"dmz-B\",\"Key\":\"Name\"},{\"Value\":\"dmz\",\"Key\":\"Tier\"}],\"AvailabilityZone\":\"us-west-2b\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "subnet-e08b7484", 
+            "LogicalResourceId": "SubnetdmzB"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "SubnetdmzA-DELETE_IN_PROGRESS-2016-03-02T18:55:58.244Z", 
+            "ResourceStatus": "DELETE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::Subnet", 
+            "Timestamp": "2016-03-02T18:55:58.244Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.0.0/20\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"dmz-A\",\"Key\":\"Name\"},{\"Value\":\"dmz\",\"Key\":\"Tier\"}],\"AvailabilityZone\":\"us-west-2a\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "subnet-7a2a3a0d", 
+            "LogicalResourceId": "SubnetdmzA"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "dmzCSubnetRouteTableAssociation-DELETE_COMPLETE-2016-03-02T18:55:56.768Z", 
+            "ResourceStatus": "DELETE_COMPLETE", 
+            "ResourceType": "AWS::EC2::SubnetRouteTableAssociation", 
+            "Timestamp": "2016-03-02T18:55:56.768Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"SubnetId\":\"subnet-bbf3dce2\",\"RouteTableId\":\"rtb-22d21b46\"}\n", 
+            "PhysicalResourceId": "rtbassoc-c78f1ca3", 
+            "LogicalResourceId": "dmzCSubnetRouteTableAssociation"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "DMZRoute-DELETE_COMPLETE-2016-03-02T18:55:56.442Z", 
+            "ResourceStatus": "DELETE_COMPLETE", 
+            "ResourceType": "AWS::EC2::Route", 
+            "Timestamp": "2016-03-02T18:55:56.442Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"GatewayId\":\"igw-44085821\",\"RouteTableId\":\"rtb-22d21b46\",\"DestinationCidrBlock\":\"0.0.0.0/0\"}\n", 
+            "PhysicalResourceId": "HackO-DMZRo-HRAZEGO0NGUO", 
+            "LogicalResourceId": "DMZRoute"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "dmzASubnetRouteTableAssociation-DELETE_COMPLETE-2016-03-02T18:55:56.349Z", 
+            "ResourceStatus": "DELETE_COMPLETE", 
+            "ResourceType": "AWS::EC2::SubnetRouteTableAssociation", 
+            "Timestamp": "2016-03-02T18:55:56.349Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"SubnetId\":\"subnet-7a2a3a0d\",\"RouteTableId\":\"rtb-22d21b46\"}\n", 
+            "PhysicalResourceId": "rtbassoc-c68f1ca2", 
+            "LogicalResourceId": "dmzASubnetRouteTableAssociation"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "dmzBSubnetRouteTableAssociation-DELETE_COMPLETE-2016-03-02T18:55:56.339Z", 
+            "ResourceStatus": "DELETE_COMPLETE", 
+            "ResourceType": "AWS::EC2::SubnetRouteTableAssociation", 
+            "Timestamp": "2016-03-02T18:55:56.339Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"SubnetId\":\"subnet-e08b7484\",\"RouteTableId\":\"rtb-22d21b46\"}\n", 
+            "PhysicalResourceId": "rtbassoc-c58f1ca1", 
+            "LogicalResourceId": "dmzBSubnetRouteTableAssociation"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "SubnetprivB-DELETE_IN_PROGRESS-2016-03-02T18:55:40.782Z", 
+            "ResourceStatus": "DELETE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::Subnet", 
+            "Timestamp": "2016-03-02T18:55:40.782Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.128.0/20\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"private-B\",\"Key\":\"Name\"},{\"Value\":\"private\",\"Key\":\"Tier\"}],\"AvailabilityZone\":\"us-west-2b\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "subnet-e28b7486", 
+            "LogicalResourceId": "SubnetprivB"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "SubnetprivC-DELETE_IN_PROGRESS-2016-03-02T18:55:40.617Z", 
+            "ResourceStatus": "DELETE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::Subnet", 
+            "Timestamp": "2016-03-02T18:55:40.617Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.144.0/20\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"private-C\",\"Key\":\"Name\"},{\"Value\":\"private\",\"Key\":\"Tier\"}],\"AvailabilityZone\":\"us-west-2c\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "subnet-b9f3dce0", 
+            "LogicalResourceId": "SubnetprivC"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "dmzBSubnetRouteTableAssociation-DELETE_IN_PROGRESS-2016-03-02T18:55:40.600Z", 
+            "ResourceStatus": "DELETE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::SubnetRouteTableAssociation", 
+            "Timestamp": "2016-03-02T18:55:40.600Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"SubnetId\":\"subnet-e08b7484\",\"RouteTableId\":\"rtb-22d21b46\"}\n", 
+            "PhysicalResourceId": "rtbassoc-c58f1ca1", 
+            "LogicalResourceId": "dmzBSubnetRouteTableAssociation"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "SubnetprivA-DELETE_IN_PROGRESS-2016-03-02T18:55:40.473Z", 
+            "ResourceStatus": "DELETE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::Subnet", 
+            "Timestamp": "2016-03-02T18:55:40.473Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.112.0/20\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"private-A\",\"Key\":\"Name\"},{\"Value\":\"private\",\"Key\":\"Tier\"}],\"AvailabilityZone\":\"us-west-2a\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "subnet-7b2a3a0c", 
+            "LogicalResourceId": "SubnetprivA"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "DMZRoute-DELETE_IN_PROGRESS-2016-03-02T18:55:40.442Z", 
+            "ResourceStatus": "DELETE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::Route", 
+            "Timestamp": "2016-03-02T18:55:40.442Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"GatewayId\":\"igw-44085821\",\"RouteTableId\":\"rtb-22d21b46\",\"DestinationCidrBlock\":\"0.0.0.0/0\"}\n", 
+            "PhysicalResourceId": "HackO-DMZRo-HRAZEGO0NGUO", 
+            "LogicalResourceId": "DMZRoute"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "dmzCSubnetRouteTableAssociation-DELETE_IN_PROGRESS-2016-03-02T18:55:40.390Z", 
+            "ResourceStatus": "DELETE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::SubnetRouteTableAssociation", 
+            "Timestamp": "2016-03-02T18:55:40.390Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"SubnetId\":\"subnet-bbf3dce2\",\"RouteTableId\":\"rtb-22d21b46\"}\n", 
+            "PhysicalResourceId": "rtbassoc-c78f1ca3", 
+            "LogicalResourceId": "dmzCSubnetRouteTableAssociation"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "dmzASubnetRouteTableAssociation-DELETE_IN_PROGRESS-2016-03-02T18:55:40.351Z", 
+            "ResourceStatus": "DELETE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::SubnetRouteTableAssociation", 
+            "Timestamp": "2016-03-02T18:55:40.351Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"SubnetId\":\"subnet-7a2a3a0d\",\"RouteTableId\":\"rtb-22d21b46\"}\n", 
+            "PhysicalResourceId": "rtbassoc-c68f1ca2", 
+            "LogicalResourceId": "dmzASubnetRouteTableAssociation"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "57696280-e0a8-11e5-920f-503f20f2ad4a", 
+            "ResourceStatus": "DELETE_IN_PROGRESS", 
+            "ResourceType": "AWS::CloudFormation::Stack", 
+            "Timestamp": "2016-03-02T18:55:32.987Z", 
+            "ResourceStatusReason": "User Initiated", 
+            "StackName": "HackOregon-stack", 
+            "PhysicalResourceId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "LogicalResourceId": "HackOregon-stack"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "d423a680-e0a5-11e5-b458-50d5ca0184f2", 
+            "ResourceStatus": "CREATE_COMPLETE", 
+            "ResourceType": "AWS::CloudFormation::Stack", 
+            "Timestamp": "2016-03-02T18:37:33.757Z", 
+            "StackName": "HackOregon-stack", 
+            "PhysicalResourceId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "LogicalResourceId": "HackOregon-stack"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "dmzCSubnetRouteTableAssociation-CREATE_COMPLETE-2016-03-02T18:37:32.439Z", 
+            "ResourceStatus": "CREATE_COMPLETE", 
+            "ResourceType": "AWS::EC2::SubnetRouteTableAssociation", 
+            "Timestamp": "2016-03-02T18:37:32.439Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"SubnetId\":\"subnet-bbf3dce2\",\"RouteTableId\":\"rtb-22d21b46\"}\n", 
+            "PhysicalResourceId": "rtbassoc-c78f1ca3", 
+            "LogicalResourceId": "dmzCSubnetRouteTableAssociation"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "DMZRoute-CREATE_COMPLETE-2016-03-02T18:37:31.877Z", 
+            "ResourceStatus": "CREATE_COMPLETE", 
+            "ResourceType": "AWS::EC2::Route", 
+            "Timestamp": "2016-03-02T18:37:31.877Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"GatewayId\":\"igw-44085821\",\"RouteTableId\":\"rtb-22d21b46\",\"DestinationCidrBlock\":\"0.0.0.0/0\"}\n", 
+            "PhysicalResourceId": "HackO-DMZRo-HRAZEGO0NGUO", 
+            "LogicalResourceId": "DMZRoute"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "dmzASubnetRouteTableAssociation-CREATE_COMPLETE-2016-03-02T18:37:31.542Z", 
+            "ResourceStatus": "CREATE_COMPLETE", 
+            "ResourceType": "AWS::EC2::SubnetRouteTableAssociation", 
+            "Timestamp": "2016-03-02T18:37:31.542Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"SubnetId\":\"subnet-7a2a3a0d\",\"RouteTableId\":\"rtb-22d21b46\"}\n", 
+            "PhysicalResourceId": "rtbassoc-c68f1ca2", 
+            "LogicalResourceId": "dmzASubnetRouteTableAssociation"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "dmzBSubnetRouteTableAssociation-CREATE_COMPLETE-2016-03-02T18:37:31.537Z", 
+            "ResourceStatus": "CREATE_COMPLETE", 
+            "ResourceType": "AWS::EC2::SubnetRouteTableAssociation", 
+            "Timestamp": "2016-03-02T18:37:31.537Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"SubnetId\":\"subnet-e08b7484\",\"RouteTableId\":\"rtb-22d21b46\"}\n", 
+            "PhysicalResourceId": "rtbassoc-c58f1ca1", 
+            "LogicalResourceId": "dmzBSubnetRouteTableAssociation"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "dmzCSubnetRouteTableAssociation-CREATE_IN_PROGRESS-2016-03-02T18:37:16.856Z", 
+            "ResourceStatus": "CREATE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::SubnetRouteTableAssociation", 
+            "Timestamp": "2016-03-02T18:37:16.856Z", 
+            "ResourceStatusReason": "Resource creation Initiated", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"SubnetId\":\"subnet-bbf3dce2\",\"RouteTableId\":\"rtb-22d21b46\"}\n", 
+            "PhysicalResourceId": "rtbassoc-c78f1ca3", 
+            "LogicalResourceId": "dmzCSubnetRouteTableAssociation"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "dmzCSubnetRouteTableAssociation-CREATE_IN_PROGRESS-2016-03-02T18:37:16.210Z", 
+            "ResourceStatus": "CREATE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::SubnetRouteTableAssociation", 
+            "Timestamp": "2016-03-02T18:37:16.210Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"SubnetId\":\"subnet-bbf3dce2\",\"RouteTableId\":\"rtb-22d21b46\"}\n", 
+            "PhysicalResourceId": "", 
+            "LogicalResourceId": "dmzCSubnetRouteTableAssociation"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "dmzBSubnetRouteTableAssociation-CREATE_IN_PROGRESS-2016-03-02T18:37:16.016Z", 
+            "ResourceStatus": "CREATE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::SubnetRouteTableAssociation", 
+            "Timestamp": "2016-03-02T18:37:16.016Z", 
+            "ResourceStatusReason": "Resource creation Initiated", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"SubnetId\":\"subnet-e08b7484\",\"RouteTableId\":\"rtb-22d21b46\"}\n", 
+            "PhysicalResourceId": "rtbassoc-c58f1ca1", 
+            "LogicalResourceId": "dmzBSubnetRouteTableAssociation"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "dmzASubnetRouteTableAssociation-CREATE_IN_PROGRESS-2016-03-02T18:37:15.965Z", 
+            "ResourceStatus": "CREATE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::SubnetRouteTableAssociation", 
+            "Timestamp": "2016-03-02T18:37:15.965Z", 
+            "ResourceStatusReason": "Resource creation Initiated", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"SubnetId\":\"subnet-7a2a3a0d\",\"RouteTableId\":\"rtb-22d21b46\"}\n", 
+            "PhysicalResourceId": "rtbassoc-c68f1ca2", 
+            "LogicalResourceId": "dmzASubnetRouteTableAssociation"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "DMZRoute-CREATE_IN_PROGRESS-2016-03-02T18:37:15.774Z", 
+            "ResourceStatus": "CREATE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::Route", 
+            "Timestamp": "2016-03-02T18:37:15.774Z", 
+            "ResourceStatusReason": "Resource creation Initiated", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"GatewayId\":\"igw-44085821\",\"RouteTableId\":\"rtb-22d21b46\",\"DestinationCidrBlock\":\"0.0.0.0/0\"}\n", 
+            "PhysicalResourceId": "HackO-DMZRo-HRAZEGO0NGUO", 
+            "LogicalResourceId": "DMZRoute"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "dmzASubnetRouteTableAssociation-CREATE_IN_PROGRESS-2016-03-02T18:37:15.260Z", 
+            "ResourceStatus": "CREATE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::SubnetRouteTableAssociation", 
+            "Timestamp": "2016-03-02T18:37:15.260Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"SubnetId\":\"subnet-7a2a3a0d\",\"RouteTableId\":\"rtb-22d21b46\"}\n", 
+            "PhysicalResourceId": "", 
+            "LogicalResourceId": "dmzASubnetRouteTableAssociation"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "dmzBSubnetRouteTableAssociation-CREATE_IN_PROGRESS-2016-03-02T18:37:15.085Z", 
+            "ResourceStatus": "CREATE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::SubnetRouteTableAssociation", 
+            "Timestamp": "2016-03-02T18:37:15.085Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"SubnetId\":\"subnet-e08b7484\",\"RouteTableId\":\"rtb-22d21b46\"}\n", 
+            "PhysicalResourceId": "", 
+            "LogicalResourceId": "dmzBSubnetRouteTableAssociation"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "DMZRoute-CREATE_IN_PROGRESS-2016-03-02T18:37:15.027Z", 
+            "ResourceStatus": "CREATE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::Route", 
+            "Timestamp": "2016-03-02T18:37:15.027Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"GatewayId\":\"igw-44085821\",\"RouteTableId\":\"rtb-22d21b46\",\"DestinationCidrBlock\":\"0.0.0.0/0\"}\n", 
+            "PhysicalResourceId": "", 
+            "LogicalResourceId": "DMZRoute"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "SubnetdmzC-CREATE_COMPLETE-2016-03-02T18:37:13.211Z", 
+            "ResourceStatus": "CREATE_COMPLETE", 
+            "ResourceType": "AWS::EC2::Subnet", 
+            "Timestamp": "2016-03-02T18:37:13.211Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.32.0/20\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"dmz-C\",\"Key\":\"Name\"},{\"Value\":\"dmz\",\"Key\":\"Tier\"}],\"AvailabilityZone\":\"us-west-2c\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "subnet-bbf3dce2", 
+            "LogicalResourceId": "SubnetdmzC"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "SubnetprivC-CREATE_COMPLETE-2016-03-02T18:37:12.298Z", 
+            "ResourceStatus": "CREATE_COMPLETE", 
+            "ResourceType": "AWS::EC2::Subnet", 
+            "Timestamp": "2016-03-02T18:37:12.298Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.144.0/20\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"private-C\",\"Key\":\"Name\"},{\"Value\":\"private\",\"Key\":\"Tier\"}],\"AvailabilityZone\":\"us-west-2c\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "subnet-b9f3dce0", 
+            "LogicalResourceId": "SubnetprivC"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "SubnetprivB-CREATE_COMPLETE-2016-03-02T18:37:12.297Z", 
+            "ResourceStatus": "CREATE_COMPLETE", 
+            "ResourceType": "AWS::EC2::Subnet", 
+            "Timestamp": "2016-03-02T18:37:12.297Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.128.0/20\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"private-B\",\"Key\":\"Name\"},{\"Value\":\"private\",\"Key\":\"Tier\"}],\"AvailabilityZone\":\"us-west-2b\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "subnet-e28b7486", 
+            "LogicalResourceId": "SubnetprivB"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "SubnetprivA-CREATE_COMPLETE-2016-03-02T18:37:12.297Z", 
+            "ResourceStatus": "CREATE_COMPLETE", 
+            "ResourceType": "AWS::EC2::Subnet", 
+            "Timestamp": "2016-03-02T18:37:12.297Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.112.0/20\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"private-A\",\"Key\":\"Name\"},{\"Value\":\"private\",\"Key\":\"Tier\"}],\"AvailabilityZone\":\"us-west-2a\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "subnet-7b2a3a0c", 
+            "LogicalResourceId": "SubnetprivA"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "SubnetdmzA-CREATE_COMPLETE-2016-03-02T18:37:12.270Z", 
+            "ResourceStatus": "CREATE_COMPLETE", 
+            "ResourceType": "AWS::EC2::Subnet", 
+            "Timestamp": "2016-03-02T18:37:12.270Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.0.0/20\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"dmz-A\",\"Key\":\"Name\"},{\"Value\":\"dmz\",\"Key\":\"Tier\"}],\"AvailabilityZone\":\"us-west-2a\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "subnet-7a2a3a0d", 
+            "LogicalResourceId": "SubnetdmzA"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "SubnetdmzB-CREATE_COMPLETE-2016-03-02T18:37:12.242Z", 
+            "ResourceStatus": "CREATE_COMPLETE", 
+            "ResourceType": "AWS::EC2::Subnet", 
+            "Timestamp": "2016-03-02T18:37:12.242Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.16.0/20\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"dmz-B\",\"Key\":\"Name\"},{\"Value\":\"dmz\",\"Key\":\"Tier\"}],\"AvailabilityZone\":\"us-west-2b\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "subnet-e08b7484", 
+            "LogicalResourceId": "SubnetdmzB"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "GatewayToInternet-CREATE_COMPLETE-2016-03-02T18:37:12.098Z", 
+            "ResourceStatus": "CREATE_COMPLETE", 
+            "ResourceType": "AWS::EC2::VPCGatewayAttachment", 
+            "Timestamp": "2016-03-02T18:37:12.098Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"InternetGatewayId\":\"igw-44085821\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "HackO-Gatew-12NY5VWSR9OWN", 
+            "LogicalResourceId": "GatewayToInternet"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "DMZRouteTable-CREATE_COMPLETE-2016-03-02T18:36:57.317Z", 
+            "ResourceStatus": "CREATE_COMPLETE", 
+            "ResourceType": "AWS::EC2::RouteTable", 
+            "Timestamp": "2016-03-02T18:36:57.317Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"DMZRouteTable\",\"Key\":\"Name\"},{\"Value\":\"dmz\",\"Key\":\"Tier\"}],\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "rtb-22d21b46", 
+            "LogicalResourceId": "DMZRouteTable"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "SubnetdmzC-CREATE_IN_PROGRESS-2016-03-02T18:36:56.377Z", 
+            "ResourceStatus": "CREATE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::Subnet", 
+            "Timestamp": "2016-03-02T18:36:56.377Z", 
+            "ResourceStatusReason": "Resource creation Initiated", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.32.0/20\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"dmz-C\",\"Key\":\"Name\"},{\"Value\":\"dmz\",\"Key\":\"Tier\"}],\"AvailabilityZone\":\"us-west-2c\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "subnet-bbf3dce2", 
+            "LogicalResourceId": "SubnetdmzC"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "GatewayToInternet-CREATE_IN_PROGRESS-2016-03-02T18:36:56.163Z", 
+            "ResourceStatus": "CREATE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::VPCGatewayAttachment", 
+            "Timestamp": "2016-03-02T18:36:56.163Z", 
+            "ResourceStatusReason": "Resource creation Initiated", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"InternetGatewayId\":\"igw-44085821\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "HackO-Gatew-12NY5VWSR9OWN", 
+            "LogicalResourceId": "GatewayToInternet"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "SubnetdmzA-CREATE_IN_PROGRESS-2016-03-02T18:36:56.083Z", 
+            "ResourceStatus": "CREATE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::Subnet", 
+            "Timestamp": "2016-03-02T18:36:56.083Z", 
+            "ResourceStatusReason": "Resource creation Initiated", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.0.0/20\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"dmz-A\",\"Key\":\"Name\"},{\"Value\":\"dmz\",\"Key\":\"Tier\"}],\"AvailabilityZone\":\"us-west-2a\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "subnet-7a2a3a0d", 
+            "LogicalResourceId": "SubnetdmzA"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "SubnetprivA-CREATE_IN_PROGRESS-2016-03-02T18:36:56.040Z", 
+            "ResourceStatus": "CREATE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::Subnet", 
+            "Timestamp": "2016-03-02T18:36:56.040Z", 
+            "ResourceStatusReason": "Resource creation Initiated", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.112.0/20\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"private-A\",\"Key\":\"Name\"},{\"Value\":\"private\",\"Key\":\"Tier\"}],\"AvailabilityZone\":\"us-west-2a\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "subnet-7b2a3a0c", 
+            "LogicalResourceId": "SubnetprivA"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "SubnetdmzB-CREATE_IN_PROGRESS-2016-03-02T18:36:55.999Z", 
+            "ResourceStatus": "CREATE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::Subnet", 
+            "Timestamp": "2016-03-02T18:36:55.999Z", 
+            "ResourceStatusReason": "Resource creation Initiated", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.16.0/20\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"dmz-B\",\"Key\":\"Name\"},{\"Value\":\"dmz\",\"Key\":\"Tier\"}],\"AvailabilityZone\":\"us-west-2b\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "subnet-e08b7484", 
+            "LogicalResourceId": "SubnetdmzB"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "SubnetprivB-CREATE_IN_PROGRESS-2016-03-02T18:36:55.993Z", 
+            "ResourceStatus": "CREATE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::Subnet", 
+            "Timestamp": "2016-03-02T18:36:55.993Z", 
+            "ResourceStatusReason": "Resource creation Initiated", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.128.0/20\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"private-B\",\"Key\":\"Name\"},{\"Value\":\"private\",\"Key\":\"Tier\"}],\"AvailabilityZone\":\"us-west-2b\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "subnet-e28b7486", 
+            "LogicalResourceId": "SubnetprivB"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "SubnetprivC-CREATE_IN_PROGRESS-2016-03-02T18:36:55.843Z", 
+            "ResourceStatus": "CREATE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::Subnet", 
+            "Timestamp": "2016-03-02T18:36:55.843Z", 
+            "ResourceStatusReason": "Resource creation Initiated", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.144.0/20\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"private-C\",\"Key\":\"Name\"},{\"Value\":\"private\",\"Key\":\"Tier\"}],\"AvailabilityZone\":\"us-west-2c\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "subnet-b9f3dce0", 
+            "LogicalResourceId": "SubnetprivC"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "DMZRouteTable-CREATE_IN_PROGRESS-2016-03-02T18:36:55.816Z", 
+            "ResourceStatus": "CREATE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::RouteTable", 
+            "Timestamp": "2016-03-02T18:36:55.816Z", 
+            "ResourceStatusReason": "Resource creation Initiated", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"DMZRouteTable\",\"Key\":\"Name\"},{\"Value\":\"dmz\",\"Key\":\"Tier\"}],\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "rtb-22d21b46", 
+            "LogicalResourceId": "DMZRouteTable"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "SubnetdmzC-CREATE_IN_PROGRESS-2016-03-02T18:36:55.699Z", 
+            "ResourceStatus": "CREATE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::Subnet", 
+            "Timestamp": "2016-03-02T18:36:55.699Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.32.0/20\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"dmz-C\",\"Key\":\"Name\"},{\"Value\":\"dmz\",\"Key\":\"Tier\"}],\"AvailabilityZone\":\"us-west-2c\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "", 
+            "LogicalResourceId": "SubnetdmzC"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "GatewayToInternet-CREATE_IN_PROGRESS-2016-03-02T18:36:55.652Z", 
+            "ResourceStatus": "CREATE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::VPCGatewayAttachment", 
+            "Timestamp": "2016-03-02T18:36:55.652Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"InternetGatewayId\":\"igw-44085821\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "", 
+            "LogicalResourceId": "GatewayToInternet"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "SubnetdmzA-CREATE_IN_PROGRESS-2016-03-02T18:36:55.530Z", 
+            "ResourceStatus": "CREATE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::Subnet", 
+            "Timestamp": "2016-03-02T18:36:55.530Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.0.0/20\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"dmz-A\",\"Key\":\"Name\"},{\"Value\":\"dmz\",\"Key\":\"Tier\"}],\"AvailabilityZone\":\"us-west-2a\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "", 
+            "LogicalResourceId": "SubnetdmzA"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "SubnetprivA-CREATE_IN_PROGRESS-2016-03-02T18:36:55.480Z", 
+            "ResourceStatus": "CREATE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::Subnet", 
+            "Timestamp": "2016-03-02T18:36:55.480Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.112.0/20\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"private-A\",\"Key\":\"Name\"},{\"Value\":\"private\",\"Key\":\"Tier\"}],\"AvailabilityZone\":\"us-west-2a\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "", 
+            "LogicalResourceId": "SubnetprivA"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "SubnetprivB-CREATE_IN_PROGRESS-2016-03-02T18:36:55.464Z", 
+            "ResourceStatus": "CREATE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::Subnet", 
+            "Timestamp": "2016-03-02T18:36:55.464Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.128.0/20\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"private-B\",\"Key\":\"Name\"},{\"Value\":\"private\",\"Key\":\"Tier\"}],\"AvailabilityZone\":\"us-west-2b\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "", 
+            "LogicalResourceId": "SubnetprivB"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "SubnetdmzB-CREATE_IN_PROGRESS-2016-03-02T18:36:55.326Z", 
+            "ResourceStatus": "CREATE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::Subnet", 
+            "Timestamp": "2016-03-02T18:36:55.326Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.16.0/20\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"dmz-B\",\"Key\":\"Name\"},{\"Value\":\"dmz\",\"Key\":\"Tier\"}],\"AvailabilityZone\":\"us-west-2b\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "", 
+            "LogicalResourceId": "SubnetdmzB"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "DMZRouteTable-CREATE_IN_PROGRESS-2016-03-02T18:36:55.314Z", 
+            "ResourceStatus": "CREATE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::RouteTable", 
+            "Timestamp": "2016-03-02T18:36:55.314Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"DMZRouteTable\",\"Key\":\"Name\"},{\"Value\":\"dmz\",\"Key\":\"Tier\"}],\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "", 
+            "LogicalResourceId": "DMZRouteTable"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "SubnetprivC-CREATE_IN_PROGRESS-2016-03-02T18:36:55.224Z", 
+            "ResourceStatus": "CREATE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::Subnet", 
+            "Timestamp": "2016-03-02T18:36:55.224Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.144.0/20\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"private-C\",\"Key\":\"Name\"},{\"Value\":\"private\",\"Key\":\"Tier\"}],\"AvailabilityZone\":\"us-west-2c\",\"VpcId\":\"vpc-965ab0f2\"}\n", 
+            "PhysicalResourceId": "", 
+            "LogicalResourceId": "SubnetprivC"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "VPC-CREATE_COMPLETE-2016-03-02T18:36:52.377Z", 
+            "ResourceStatus": "CREATE_COMPLETE", 
+            "ResourceType": "AWS::EC2::VPC", 
+            "Timestamp": "2016-03-02T18:36:52.377Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.0.0/16\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"DMZ\",\"Key\":\"Network\"},{\"Value\":\"HackOregon\",\"Key\":\"Name\"}],\"EnableDnsSupport\":\"true\",\"EnableDnsHostnames\":\"true\"}\n", 
+            "PhysicalResourceId": "vpc-965ab0f2", 
+            "LogicalResourceId": "VPC"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "InternetGateway-CREATE_COMPLETE-2016-03-02T18:36:51.683Z", 
+            "ResourceStatus": "CREATE_COMPLETE", 
+            "ResourceType": "AWS::EC2::InternetGateway", 
+            "Timestamp": "2016-03-02T18:36:51.683Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"dmz\",\"Key\":\"Tier\"}]}\n", 
+            "PhysicalResourceId": "igw-44085821", 
+            "LogicalResourceId": "InternetGateway"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "VPC-CREATE_IN_PROGRESS-2016-03-02T18:36:35.652Z", 
+            "ResourceStatus": "CREATE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::VPC", 
+            "Timestamp": "2016-03-02T18:36:35.652Z", 
+            "ResourceStatusReason": "Resource creation Initiated", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.0.0/16\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"DMZ\",\"Key\":\"Network\"},{\"Value\":\"HackOregon\",\"Key\":\"Name\"}],\"EnableDnsSupport\":\"true\",\"EnableDnsHostnames\":\"true\"}\n", 
+            "PhysicalResourceId": "vpc-965ab0f2", 
+            "LogicalResourceId": "VPC"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "InternetGateway-CREATE_IN_PROGRESS-2016-03-02T18:36:35.378Z", 
+            "ResourceStatus": "CREATE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::InternetGateway", 
+            "Timestamp": "2016-03-02T18:36:35.378Z", 
+            "ResourceStatusReason": "Resource creation Initiated", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"dmz\",\"Key\":\"Tier\"}]}\n", 
+            "PhysicalResourceId": "igw-44085821", 
+            "LogicalResourceId": "InternetGateway"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "VPC-CREATE_IN_PROGRESS-2016-03-02T18:36:35.108Z", 
+            "ResourceStatus": "CREATE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::VPC", 
+            "Timestamp": "2016-03-02T18:36:35.108Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"CidrBlock\":\"10.10.0.0/16\",\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"DMZ\",\"Key\":\"Network\"},{\"Value\":\"HackOregon\",\"Key\":\"Name\"}],\"EnableDnsSupport\":\"true\",\"EnableDnsHostnames\":\"true\"}\n", 
+            "PhysicalResourceId": "", 
+            "LogicalResourceId": "VPC"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "InternetGateway-CREATE_IN_PROGRESS-2016-03-02T18:36:34.909Z", 
+            "ResourceStatus": "CREATE_IN_PROGRESS", 
+            "ResourceType": "AWS::EC2::InternetGateway", 
+            "Timestamp": "2016-03-02T18:36:34.909Z", 
+            "StackName": "HackOregon-stack", 
+            "ResourceProperties": "{\"Tags\":[{\"Value\":\"HackOregon-stack\",\"Key\":\"Application\"},{\"Value\":\"dmz\",\"Key\":\"Tier\"}]}\n", 
+            "PhysicalResourceId": "", 
+            "LogicalResourceId": "InternetGateway"
+        }, 
+        {
+            "StackId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "EventId": "acccd980-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "ResourceStatus": "CREATE_IN_PROGRESS", 
+            "ResourceType": "AWS::CloudFormation::Stack", 
+            "Timestamp": "2016-03-02T18:36:27.806Z", 
+            "ResourceStatusReason": "User Initiated", 
+            "StackName": "HackOregon-stack", 
+            "PhysicalResourceId": "arn:aws:cloudformation:us-west-2:592880814826:stack/HackOregon-stack/accb79f0-e0a5-11e5-989f-50ba1b9b0aa6", 
+            "LogicalResourceId": "HackOregon-stack"
+        }
+    ]
+}
