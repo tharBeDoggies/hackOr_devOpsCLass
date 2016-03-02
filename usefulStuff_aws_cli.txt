@@ -1,0 +1,22 @@
+#----------------------------------------
+# aws cli -- general
+#----------------------------------------
+
+# enable command completion
+
+- determine pathname of aws_completer (shell and installation-method dependent)
+- enable and test
+- add to .bash_profile
+
+which aws_completer
+complete -C '/usr/local/bin/aws_completer' aws 
+
+
+#----------------------------------------
+# aws cli -- examples of working with instances
+#----------------------------------------
+
+aws ec2 describe-instances
+aws ec2 terminate-instances --instance-ids (list)
+
+  
