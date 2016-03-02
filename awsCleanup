@@ -1,0 +1,8 @@
+# cleanup script might be possible via a basic aws cli script
+# figure out requirements for deleting an entire cloudformation stack
+  # use the most stubborn trial and error techniques around
+# sassy, unnecessary note: prolly a good idea to create a cloudformation stack (ideally via the launchCluster.sh script) first
+
+# delete hackOr stack (prior to terminating instances, disassociating ips, etc) via aws console gui
+
+stuff that successfully deletes:
