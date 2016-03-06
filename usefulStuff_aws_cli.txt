@@ -2,6 +2,10 @@
 # aws cli -- general
 #----------------------------------------
 
+# installation (osx)
+
+sudo -H pip install --ignore-insatlled six awscli
+
 # enable command completion
 
 - determine pathname of aws_completer (shell and installation-method dependent)
