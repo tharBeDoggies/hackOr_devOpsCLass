@@ -35,7 +35,11 @@ reverse-i-search prompt: ctrl + r
 
 # show user, host, and working directory in prompt
 
+* user@host:pwd$
 export PS1='\u@\H:\w$ '
+
+* user@host:pwd$ with color!! 
+export PS1='\[\033[1;34m\]\u@\h\[\033[m\]\[\033[0;97m\]\[\033[0m\]\[\033[0;97m\]:\w\[\033[0m\]$ '
 
 # configure ls color output settings (examples)
 
