@@ -10,6 +10,7 @@
 
 which aws_completer
 complete -C '/usr/local/bin/aws_completer' aws 
+echo 'complete -C '/usr/local/bin/aws_completer' aws' >>~/.bash_profile
 
 
 #----------------------------------------
