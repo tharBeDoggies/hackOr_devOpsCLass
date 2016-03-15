@@ -5,3 +5,10 @@ sara@felix:~/repos/or-agriculture (sara)$ docker run -it [imageName] bash
 # launch stuff in detached mode (launch then be dumped back into local shell)
 
 sara@felix:~/repos/or-agriculture/api (sara3)$ docker-compose up -d
+
+# view docker machines
+
+sara@felix:~ $ docker-machine ls
+NAME      ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER    ERRORS
+d2        -        virtualbox   Running   tcp://xxxxx           v1.10.3
+default   *        virtualbox   Running   tcp://xxxxx          v1.10.3
