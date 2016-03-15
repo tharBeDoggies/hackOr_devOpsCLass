@@ -1,0 +1,10 @@
+# troubleshooting docker daemon start/connection issues on osx yosem
+https://github.com/docker/toolbox/issues/153
+
+sara@felix:~ $ VBoxManage list -l hostonlyifs
+
+sara@felix:~ $ docker network ls
+NETWORK ID          NAME                DRIVER
+2a98dbd7e87e        none                null
+afa19598e9b4        host                host
+1ba31b66ffdf        bridge              bridge

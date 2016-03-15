@@ -1,4 +1,0 @@
-# troubleshooting docker daemon start/connection issues on osx yosem
-https://github.com/docker/toolbox/issues/153
-
-sara@felix:~ $ VBoxManage list -l hostonlyifs
