@@ -1,3 +1,7 @@
 # log in to bash on docker machine
 
 sara@felix:~/repos/or-agriculture (sara)$ docker run -it [imageName] bash
+
+# launch stuff in detached mode (launch then be dumped back into local shell)
+
+sara@felix:~/repos/or-agriculture/api (sara3)$ docker-compose up -d
