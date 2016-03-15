@@ -1,0 +1,3 @@
+sbp = reload/source bash profile
+ps = ps aux
+wat = display this
