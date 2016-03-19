@@ -1,3 +1,16 @@
+# fix annoying docker daemon issue on osx
+* place into bash profile to load default machine on login 
+
+$ eval "$(docker-machine env default)"
+
+# list running machines (i.e., those that show up in vBox)
+
+$ docker-machine ls
+
+# kill running machines (default is killed if not otherwise specified) 
+
+$ docker-machine kill [nameOfMachine]
+
 # log in to bash on docker machine
 
 sara@felix:~/repos/or-agriculture (sara)$ docker run -it [imageName] bash
