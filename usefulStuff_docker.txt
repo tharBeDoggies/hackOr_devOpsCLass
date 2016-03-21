@@ -12,9 +12,18 @@ $ export TERM='xterm'
 $ docker-machine ssh
 
 
-# fix annoying docker daemon issue on osx
+# fix annoying docker daemon issue on osx (only works in certain situations...detail to follow...)
 * place into bash profile to load default machine on login 
 
+$ eval "$(docker-machine env default)"
+
+# **possible** workaround fix for 'error checking tls connection...' issue
+# this method does not require destroying and re-creation of default machine
+# yet to confirm whether this will resolve particularly finicky host-only issues
+
+- simply create a new docker machine, then re-eval default machine
+
+$ docker-machine create --driver virtualbox d8
 $ eval "$(docker-machine env default)"
 
 # list running machines (i.e., those that show up in vBox)
