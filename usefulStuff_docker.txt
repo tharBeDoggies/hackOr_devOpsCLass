@@ -1,3 +1,17 @@
+# use top on docker machine without going through vbox manager
+# i.e., fix 'xterm-256color’: unknown terminal type error*
+* error encountered on osx, though applies to other os as well
+
+- confirm TERM variable settings
+$ echo $TERM
+
+- execute following in session, or add to bash profile
+$ export TERM='xterm'
+
+- ssh into the docker-machine and execute top
+$ docker-machine ssh
+
+
 # fix annoying docker daemon issue on osx
 * place into bash profile to load default machine on login 
 
