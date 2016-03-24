@@ -11,6 +11,11 @@ aws configure > set output to table
 aws ec2 describe-whatever --region your-region-choice
 
 $ aws ec2 describe-key-pairs --region us-west-2
+$ aws ec2 describe-vps --region us-west-1
+
+# view ec2 regions
+
+$ aws ec2 describe-regions
 
 #----------------------------------------
 # aws cli -- general
