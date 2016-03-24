@@ -17,6 +17,11 @@ $ aws ec2 describe-vps --region us-west-1
 
 $ aws ec2 describe-regions
 
+# start and stop instances
+
+$ aws ec2 start-instances --region us-west-1 --instance-ids i-yeridhere
+
+
 #----------------------------------------
 # aws cli -- general
 #----------------------------------------
