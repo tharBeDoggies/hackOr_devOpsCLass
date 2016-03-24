@@ -1,4 +1,18 @@
 #----------------------------------------
+# aws cli babble vacuum
+#----------------------------------------
+
+# view aws config stuff in nicer (table) format
+
+aws configure > set output to table
+
+# view ec2 info for specific region
+
+aws ec2 describe-whatever --region your-region-choice
+
+$ aws ec2 describe-key-pairs --region us-west-2
+
+#----------------------------------------
 # aws cli -- general
 #----------------------------------------
 
